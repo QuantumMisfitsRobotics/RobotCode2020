@@ -9,7 +9,11 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
+import frc.robot.subsystems.TowerSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -22,6 +26,7 @@ public class RobotContainer
     XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
 
     // The robot's subsystems and commands are defined here...
+    private final TowerSubsystem m_tower = new TowerSubsystem();
 
 
     /**
@@ -32,6 +37,9 @@ public class RobotContainer
         configureButtonBindings();
 
         // Configure default commands
+        m_tower.setDefaultCommand(
+                new RunCommand(m_tower::stopBalls)
+        );
     }
 
     /**
@@ -41,6 +49,7 @@ public class RobotContainer
      * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton JoystickButton}.
      */
     private void configureButtonBindings() {
-        
+        new JoystickButton(m_driverController, Button.kA.value).whenPressed(m_tower::raiseBalls);
+        new JoystickButton(m_driverController, Button.kB.value).whenPressed(m_tower::lowerBalls);
     }
 }
