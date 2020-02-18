@@ -27,8 +27,7 @@ public class RobotContainer
     /**
      * The container for the robot.  Contains subsystems, OI devices, and commands.
      */
-    public RobotContainer()
-    {
+    public RobotContainer() {
         // Configure the button bindings
         configureButtonBindings();
 
@@ -41,8 +40,7 @@ public class RobotContainer
      * edu.wpi.first.wpilibj.Joystick Joystick} or {@link XboxController}), and then passing it to a
      * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton JoystickButton}.
      */
-    private void configureButtonBindings()
-    {
+    private void configureButtonBindings() {
         
     }
 }
