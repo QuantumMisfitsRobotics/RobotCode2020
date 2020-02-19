@@ -24,7 +24,7 @@ public class RobotContainer
 {
     XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
 
-    ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem(ShooterSubsystem.ShooterMode.TalonSrx);
+    ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
     ShootBallCommand m_shootBallCommand = new ShootBallCommand(m_shooterSubsystem);
 
     // The robot's subsystems and commands are defined here...

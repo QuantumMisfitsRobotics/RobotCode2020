@@ -7,39 +7,22 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ShooterSubsystem extends SubsystemBase {
-
-    public enum ShooterMode {
-        VictorSpx,
-        TalonSrx,
-    }
-
-    private final ShooterMode shooterMode = ShooterMode.TalonSrx;
-    private final PWMVictorSPX victorMotor;
-    private final PWMTalonSRX talonMotor;
+    
+    private final PWMVictorSPX m_ballShooterCommand = new PWMVictorSPX(Constants.ShooterConstants.kShooterControllerPort);
 
 
-    public ShooterSubsystem(ShooterMode mode) {
-        if (mode == ShooterMode.TalonSrx) {
-            talonMotor = new PWMTalonSRX(Constants.ShooterConstants.kShooterControllerPort);
-            victorMotor = null;
-            addChild("Shoot Ball", talonMotor);
-        } else {
-            talonMotor = null;
-            victorMotor = new PWMVictorSPX(Constants.ShooterConstants.kShooterControllerPort);
-            addChild("Shoot Ball", victorMotor);
-        }
+    public ShooterSubsystem() {
+
 
         setName("Shooter Subsystem");
     }
 
     public void shoot() {
-        if (talonMotor != null) talonMotor.set(1);
-        else victorMotor.set(1);
+        m_ballShooterCommand.set(1);
     }
 
     public void stopShooter() {
-        if (talonMotor != null) talonMotor.stopMotor();
-        else victorMotor.stopMotor();
+        m_ballShooterCommand.stopMotor();
     }
 
 }
