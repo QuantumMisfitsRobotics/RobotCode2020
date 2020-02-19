@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 
 import edu.wpi.first.wpilibj.PWMTalonSRX;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.TowerConstants;
 
@@ -18,6 +19,8 @@ public class TowerSubsystem extends SubsystemBase {
 
         addChild("Left Tower Motor", m_leftTowerMotor);
         addChild("Right Tower Motor", m_rightTowerMotor);
+
+        setDefaultCommand(new RunCommand(this::stopBalls));
     }
 
     public void raiseBalls() {

@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.LowerBallsCommand;
+import frc.robot.commands.RaiseBallsCommand;
 import frc.robot.subsystems.TowerSubsystem;
 
 /**
@@ -25,9 +27,12 @@ public class RobotContainer
 {
     XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
 
+
     // The robot's subsystems and commands are defined here...
     private final TowerSubsystem m_tower = new TowerSubsystem();
 
+    private final LowerBallsCommand m_lowerBallsCommand = new LowerBallsCommand(m_tower);
+    private final RaiseBallsCommand m_raiseBallsCommand = new RaiseBallsCommand(m_tower);
 
     /**
      * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -36,10 +41,6 @@ public class RobotContainer
         // Configure the button bindings
         configureButtonBindings();
 
-        // Configure default commands
-        m_tower.setDefaultCommand(
-                new RunCommand(m_tower::stopBalls)
-        );
     }
 
     /**
@@ -49,7 +50,7 @@ public class RobotContainer
      * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton JoystickButton}.
      */
     private void configureButtonBindings() {
-        new JoystickButton(m_driverController, Button.kA.value).whenPressed(m_tower::raiseBalls);
-        new JoystickButton(m_driverController, Button.kB.value).whenPressed(m_tower::lowerBalls);
+        new JoystickButton(m_driverController, Button.kA.value).whenPressed(m_raiseBallsCommand);
+        new JoystickButton(m_driverController, Button.kB.value).whenPressed(m_lowerBallsCommand);
     }
 }
