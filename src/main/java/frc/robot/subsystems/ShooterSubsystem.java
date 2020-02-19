@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ShooterSubsystem extends SubsystemBase {
-    
+
     private final PWMVictorSPX m_ballShooterCommand = new PWMVictorSPX(Constants.ShooterConstants.kShooterControllerPort);
 
 
