@@ -12,13 +12,6 @@ public class LowerBallsCommand extends CommandBase {
         addRequirements(towerSubsystem);
     }
 
-    /**
-     * The initial subroutine of a command.  Called once when the command is initially scheduled.
-     */
-    @Override
-    public void initialize() {
-
-    }
 
     /**
      * The main body of a command.  Called repeatedly while the command is scheduled.
@@ -26,7 +19,7 @@ public class LowerBallsCommand extends CommandBase {
      */
     @Override
     public void execute() {
-
+        towerSubsystem.lowerBalls();
     }
 
     /**
@@ -45,8 +38,7 @@ public class LowerBallsCommand extends CommandBase {
      */
     @Override
     public boolean isFinished() {
-        // TODO: Make this return true when this Command no longer needs to run execute()
-        return false;
+        return true;
     }
 
     /**
@@ -59,6 +51,6 @@ public class LowerBallsCommand extends CommandBase {
      */
     @Override
     public void end(boolean interrupted) {
-
+        towerSubsystem.stopBalls();
     }
 }

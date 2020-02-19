@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.TowerSubsystem;
 
 
@@ -12,13 +13,6 @@ public class RaiseBallsCommand extends CommandBase {
         addRequirements(towerSubsystem);
     }
 
-    /**
-     * The initial subroutine of a command.  Called once when the command is initially scheduled.
-     */
-    @Override
-    public void initialize() {
-
-    }
 
     /**
      * The main body of a command.  Called repeatedly while the command is scheduled.
@@ -26,7 +20,7 @@ public class RaiseBallsCommand extends CommandBase {
      */
     @Override
     public void execute() {
-
+        towerSubsystem.raiseBalls();
     }
 
     /**
@@ -45,9 +39,10 @@ public class RaiseBallsCommand extends CommandBase {
      */
     @Override
     public boolean isFinished() {
-        // TODO: Make this return true when this Command no longer needs to run execute()
-        return false;
+        return true;
     }
+
+
 
     /**
      * The action to take when the command ends. Called when either the command
@@ -59,6 +54,6 @@ public class RaiseBallsCommand extends CommandBase {
      */
     @Override
     public void end(boolean interrupted) {
-
+        towerSubsystem.stopBalls();
     }
 }
