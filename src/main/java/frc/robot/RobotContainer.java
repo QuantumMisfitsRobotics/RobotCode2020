@@ -21,8 +21,7 @@ import frc.robot.subsystems.DriveSubsystem;
  * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
  * (including subsystems, commands, and button mappings) should be declared here.
  */
-public class RobotContainer
-{
+public class RobotContainer {
     XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
 
     // The robot's subsystems and commands are defined here...
@@ -32,8 +31,7 @@ public class RobotContainer
     /**
      * The container for the robot.  Contains subsystems, OI devices, and commands.
      */
-    public RobotContainer()
-    {
+    public RobotContainer() {
         // Configure the button bindings
         configureButtonBindings();
 
@@ -55,8 +53,7 @@ public class RobotContainer
      * edu.wpi.first.wpilibj.Joystick Joystick} or {@link XboxController}), and then passing it to a
      * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton JoystickButton}.
      */
-    private void configureButtonBindings()
-    {
+    private void configureButtonBindings() {
         // Drive at half speed when the right bumper is held
         new JoystickButton(m_driverController, Button.kBumperRight.value)
                 .whenPressed(() -> m_robotDrive.setMaxOutput(0.5))
