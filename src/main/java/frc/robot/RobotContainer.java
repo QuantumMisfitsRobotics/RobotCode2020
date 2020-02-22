@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ShootBallCommand;
@@ -25,10 +26,7 @@ public class RobotContainer
     XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
 
     ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
-    ShootBallCommand m_shootBallCommand = new ShootBallCommand(m_shooterSubsystem);
-
-    // The robot's subsystems and commands are defined here...
-
+    private final ShootBallCommand m_shootBallCommand = new ShootBallCommand(m_shooterSubsystem);
 
     /**
      * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -47,6 +45,7 @@ public class RobotContainer
      * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton JoystickButton}.
      */
     private void configureButtonBindings() {
-        new JoystickButton(m_driverController, XboxController.Button.kBumperRight.value).whenPressed(m_shootBallCommand);
+        new JoystickButton(m_driverController, XboxController.Button.kBumperLeft.value)
+                .whenPressed(m_shootBallCommand);
     }
 }
