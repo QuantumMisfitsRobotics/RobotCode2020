@@ -14,7 +14,7 @@ public class InnerIntakeSubsystem extends SubsystemBase {
         setName("Inner Intake Subsystem");
         addChild("Inner Intake Motor Controller", innerIntakeMotor);
 
-        setDefaultCommand(new InstantCommand(() -> stopInnerIntake()));
+        setDefaultCommand(new InstantCommand(this::stopInnerIntake));
     }
 
 

@@ -7,12 +7,11 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.StartIntakeCommand;
+import frc.robot.commands.StartInnerIntakeCommand;
+import frc.robot.commands.StopInnerIntakeCommand;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -24,26 +23,14 @@ public class RobotContainer
 {
     XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
 
-    // The robot's subsystems and commands are defined here...
+    StartInnerIntakeCommand startInnerIntakeCommand = new StartInnerIntakeCommand();
+    StopInnerIntakeCommand stopInnerIntakeCommand = new StopInnerIntakeCommand();
 
-
-    /**
-     * The container for the robot.  Contains subsystems, OI devices, and commands.
-     */
     public RobotContainer() {
-        // Configure the button bindings
         configureButtonBindings();
-
-        // Configure default commands
     }
 
-    /**
-     * Use this method to define your button->command mappings.  Buttons can be created by
-     * instantiating a {@link GenericHID} or one of its subclasses ({@link
-     * edu.wpi.first.wpilibj.Joystick Joystick} or {@link XboxController}), and then passing it to a
-     * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton JoystickButton}.
-     */
     private void configureButtonBindings() {
-        new JoystickButton(m_driverController, XboxController.Button.kBumperLeft.value).whenPressed(new StartIntakeCommand());
+        new JoystickButton(m_driverController, XboxController.Button.kBumperLeft.value).whenPressed(startInnerIntakeCommand);
     }
 }
