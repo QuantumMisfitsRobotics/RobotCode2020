@@ -21,4 +21,9 @@ public final class Constants
         public static final int kDriverControllerPort = 0;
 
     }
+
+    public static final class ElevatorConstants {
+        public static final int kElevatorControllerId = 11;
+        public static final int kElevatorWinchId = 12;
+    }
 }
