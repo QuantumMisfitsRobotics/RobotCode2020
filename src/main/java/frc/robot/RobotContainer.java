@@ -14,12 +14,6 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ShootBallBackwardCommand;
 import frc.robot.commands.ShootBallForwardCommand;
 
-/**
- * This class is where the bulk of the robot should be declared.  Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
- * (including subsystems, commands, and button mappings) should be declared here.
- */
 public class RobotContainer
 {
     XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
@@ -27,23 +21,10 @@ public class RobotContainer
     private final ShootBallForwardCommand m_shootBallForwardCommand = new ShootBallForwardCommand();
     private final ShootBallBackwardCommand m_shootBallBackwardCommand = new ShootBallBackwardCommand();
 
-
-    /**
-     * The container for the robot.  Contains subsystems, OI devices, and commands.
-     */
     public RobotContainer() {
-        // Configure the button bindings
         configureButtonBindings();
-
-        // Configure default commands
     }
 
-    /**
-     * Use this method to define your button->command mappings.  Buttons can be created by
-     * instantiating a {@link GenericHID} or one of its subclasses ({@link
-     * edu.wpi.first.wpilibj.Joystick Joystick} or {@link XboxController}), and then passing it to a
-     * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton JoystickButton}.
-     */
     private void configureButtonBindings() {
         new JoystickButton(m_driverController, XboxController.Button.kBumperLeft.value)
                 .whenPressed(m_shootBallForwardCommand);
