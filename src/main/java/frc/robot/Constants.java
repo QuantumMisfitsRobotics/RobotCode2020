@@ -22,6 +22,6 @@ public final class Constants
     }
 
     public static final class ShooterConstants {
-        public static final int kShooterControllerPort = 6;
+        public static final int kShooterControllerPort = 9;
     }
 }

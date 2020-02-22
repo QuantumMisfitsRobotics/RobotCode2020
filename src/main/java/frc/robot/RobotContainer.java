@@ -9,11 +9,10 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.ShootBallCommand;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.commands.ShootBallBackwardCommand;
+import frc.robot.commands.ShootBallForwardCommand;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -25,8 +24,9 @@ public class RobotContainer
 {
     XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
 
-    ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
-    private final ShootBallCommand m_shootBallCommand = new ShootBallCommand(m_shooterSubsystem);
+    private final ShootBallForwardCommand m_shootBallForwardCommand = new ShootBallForwardCommand();
+    private final ShootBallBackwardCommand m_shootBallBackwardCommand = new ShootBallBackwardCommand();
+
 
     /**
      * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -46,6 +46,6 @@ public class RobotContainer
      */
     private void configureButtonBindings() {
         new JoystickButton(m_driverController, XboxController.Button.kBumperLeft.value)
-                .whenPressed(m_shootBallCommand);
+                .whenPressed(m_shootBallForwardCommand);
     }
 }

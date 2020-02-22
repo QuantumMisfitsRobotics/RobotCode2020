@@ -1,29 +1,35 @@
 package frc.robot.subsystems;
 
 
-import edu.wpi.first.wpilibj.PWMTalonSRX;
-import edu.wpi.first.wpilibj.PWMVictorSPX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ShooterSubsystem extends SubsystemBase {
 
-    private final PWMVictorSPX m_ballShooterCommand = new PWMVictorSPX(Constants.ShooterConstants.kShooterControllerPort);
+    private final static ShooterSubsystem INSTANCE = new ShooterSubsystem();
+    private final WPI_VictorSPX ballShooterController = new WPI_VictorSPX(Constants.ShooterConstants.kShooterControllerPort);
 
-
-    public ShooterSubsystem() {
-
-
+    private ShooterSubsystem() {
         setName("Shooter Subsystem");
-    }
-
-    public void shoot() {
-        m_ballShooterCommand.set(1);
+        setDefaultCommand(new RunCommand(this::stopShooter));
     }
 
     public void stopShooter() {
-        m_ballShooterCommand.stopMotor();
+        ballShooterController.stopMotor();
     }
 
+    public void shootForward() {
+        ballShooterController.set(1);
+    }
+
+    public void shootBackward() {
+        ballShooterController.set(-1);
+    }
+
+    public static ShooterSubsystem getInstance() {
+        return INSTANCE;
+    }
 }
 

@@ -4,17 +4,17 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShooterSubsystem;
 
 
-public class ShootBallCommand extends CommandBase {
-    private final ShooterSubsystem shooterSubsystem;
+public class ShootBallBackwardCommand extends CommandBase {
+    private final ShooterSubsystem shooterSubsystem = ShooterSubsystem.getInstance();
 
-    public ShootBallCommand(ShooterSubsystem shooterSubsystem) {
-        this.shooterSubsystem = shooterSubsystem;
+    public ShootBallBackwardCommand() {
         addRequirements(shooterSubsystem);
+        setName("Shoot Ball Command");
     }
 
     @Override
     public void execute() {
-        shooterSubsystem.shoot();
+        shooterSubsystem.shootBackward();
     }
 
     @Override
