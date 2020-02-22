@@ -9,7 +9,10 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.button.Button;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.StartIntakeCommand;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -41,6 +44,6 @@ public class RobotContainer
      * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton JoystickButton}.
      */
     private void configureButtonBindings() {
-        
+        new JoystickButton(m_driverController, XboxController.Button.kBumperLeft.value).whenPressed(new StartIntakeCommand());
     }
 }

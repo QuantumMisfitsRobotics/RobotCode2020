@@ -21,4 +21,8 @@ public final class Constants
         public static final int kDriverControllerPort = 0;
 
     }
+
+    public static final class InnerIntakeConstants {
+        public static final int kInnerIntakeMotorId = 7;
+    }
 }
