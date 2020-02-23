@@ -10,9 +10,7 @@ public class TowerSubsystem extends SubsystemBase {
     private final PWMTalonSRX m_leftTowerMotor = new PWMTalonSRX(TowerConstants.kLeftTowerMotorPort);
     private final PWMTalonSRX m_rightTowerMotor = new PWMTalonSRX(TowerConstants.kRightTowerMotorPort);
 
-    /**
-     * Creates a new TowerSubsystem.
-     */
+
     public TowerSubsystem() {
         setName("Tower Subsystem");
         setSubsystem("Tower Subsystem");
@@ -20,7 +18,9 @@ public class TowerSubsystem extends SubsystemBase {
         addChild("Left Tower Motor", m_leftTowerMotor);
         addChild("Right Tower Motor", m_rightTowerMotor);
 
-        setDefaultCommand(new RunCommand(this::stopBalls));
+        RunCommand defaultCommand = new RunCommand(this::stopBalls);
+        defaultCommand.addRequirements(this);
+        setDefaultCommand(defaultCommand);
     }
 
     public void raiseBalls() {
