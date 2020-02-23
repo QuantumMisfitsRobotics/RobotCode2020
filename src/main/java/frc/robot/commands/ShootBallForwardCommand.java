@@ -13,13 +13,8 @@ public class ShootBallForwardCommand extends CommandBase {
     }
 
     @Override
-    public void execute() {
+    public void initialize() {
         shooterSubsystem.shootForward();
-    }
-
-    @Override
-    public boolean isFinished() {
-        return true;
     }
 
     @Override

@@ -13,13 +13,8 @@ public class ShootBallBackwardCommand extends CommandBase {
     }
 
     @Override
-    public void execute() {
+    public void initialize() {
         shooterSubsystem.shootBackward();
-    }
-
-    @Override
-    public boolean isFinished() {
-        return true;
     }
 
     @Override
