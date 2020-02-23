@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.commands.StopInnerIntakeCommand;
 
 public class InnerIntakeSubsystem extends SubsystemBase {
 
@@ -14,7 +15,7 @@ public class InnerIntakeSubsystem extends SubsystemBase {
         setName("Inner Intake Subsystem");
         addChild("Inner Intake Motor Controller", innerIntakeMotor);
 
-        setDefaultCommand(new InstantCommand(this::stopInnerIntake));
+        setDefaultCommand(new StopInnerIntakeCommand());
     }
 
 

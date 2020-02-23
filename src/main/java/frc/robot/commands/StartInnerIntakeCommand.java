@@ -8,17 +8,14 @@ public class StartInnerIntakeCommand extends CommandBase {
 
     public StartInnerIntakeCommand() {
         addRequirements(innerIntakeSubsystem);
+        setName("Start Inner Intake Command");
     }
 
     @Override
-    public void execute() {
+    public void initialize() {
         innerIntakeSubsystem.forward();
     }
 
-    @Override
-    public boolean isFinished() {
-        return true;
-    }
 
     @Override
     public void end(boolean interrupted) {
