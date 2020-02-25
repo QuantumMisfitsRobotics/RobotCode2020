@@ -12,6 +12,7 @@ import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
@@ -23,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.RobotContainer;
+import frc.robot.commands.DriveCartesian;
 
 public class DriveSubsystem extends SubsystemBase {
     private final CANSparkMax m_frontLeft = new CANSparkMax(DriveConstants.kFrontLeftMotorID, CANSparkMaxLowLevel.MotorType.kBrushed);
@@ -70,7 +72,7 @@ public class DriveSubsystem extends SubsystemBase {
     /**
      * Creates a new DriveSubsystem.
      */
-    public DriveSubsystem() {
+    public DriveSubsystem(XboxController controller) {
         // Sets the distance per pulse for the encoders
         m_frontLeftEncoder.setDistancePerPulse(DriveConstants.kEncoderDistancePerPulse);
         m_rearLeftEncoder.setDistancePerPulse(DriveConstants.kEncoderDistancePerPulse);
@@ -82,15 +84,7 @@ public class DriveSubsystem extends SubsystemBase {
         m_frontRight.setInverted(false);
         m_rearRight.setInverted(false);
 
-        RunCommand defaultCommand = new RunCommand(() -> drive(
-            RobotContainer.m_driverController.getY(GenericHID.Hand.kLeft),
-            RobotContainer.m_driverController.getX(GenericHID.Hand.kLeft),
-            RobotContainer.m_driverController.getX(GenericHID.Hand.kRight),
-            false
-        ));
-        defaultCommand.addRequirements(this);
-
-        setDefaultCommand(defaultCommand);
+        setDefaultCommand(new DriveCartesian(this, controller));
     }
 
     /**

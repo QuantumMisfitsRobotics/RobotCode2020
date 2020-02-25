@@ -8,6 +8,7 @@ public final class Constants
 {
     public static final class OIConstants {
         public static final int kDriverControllerPort = 0;
+        public static final int kDriverControlBoard = 1;
     }
 
     public static final class DriveConstants {
@@ -72,5 +73,9 @@ public final class Constants
     public static final class ShooterConstants {
         public static final int kShooterControllerPort = 9;
     }
-    
+
+    public static final class ElevatorConstants {
+        public static final int kElevatorControllerId = 10;
+        public static final int kElevatorWinchId = 11;
+    }
 }

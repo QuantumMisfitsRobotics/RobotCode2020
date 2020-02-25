@@ -1,41 +1,34 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.PWMVictorSPX;
-import edu.wpi.first.wpilibj2.command.RunCommand;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class InnerIntakeSubsystem extends SubsystemBase {
 
-    private final static InnerIntakeSubsystem INSTANCE = new InnerIntakeSubsystem();
-    private final PWMVictorSPX innerIntakeMotor = new PWMVictorSPX(Constants.InnerIntakeConstants.kInnerIntakeMotorId);
+    private final WPI_VictorSPX m_innerIntakeMotor = new WPI_VictorSPX(Constants.InnerIntakeConstants.kInnerIntakeMotorId);
 
-    private InnerIntakeSubsystem() {
+    public InnerIntakeSubsystem() {
         setName("Inner Intake Subsystem");
-        addChild("Inner Intake Motor Controller", innerIntakeMotor);
-
-        RunCommand defaultCommand = new RunCommand(this::stopInnerIntake);
-        defaultCommand.addRequirements(this);
-
-        setDefaultCommand(defaultCommand);
+        setSubsystem(getName());
+        addChild("Inner Intake Motor Controller", m_innerIntakeMotor);
     }
 
 
     public void stopInnerIntake() {
-        innerIntakeMotor.stopMotor();
+        m_innerIntakeMotor.stopMotor();
     }
 
-    public void forward() {
-        innerIntakeMotor.set(1);
+    public void startInnerIntake() {
+        m_innerIntakeMotor.set(0.75);
     }
 
     public void reverse() {
-        innerIntakeMotor.set(-1);
+        m_innerIntakeMotor.set(-0.5);
     }
 
-    public static InnerIntakeSubsystem getInstance() {
-        return INSTANCE;
+    public boolean isNotRunning() {
+        return m_innerIntakeMotor.get() == 0;
     }
-
 }
 

@@ -7,7 +7,11 @@
 
 package frc.robot;
 
+import com.revrobotics.ColorSensorV3;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 /**
@@ -18,7 +22,9 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends TimedRobot {
-    private RobotContainer robotContainer;
+    private RobotContainer robotContainer = new RobotContainer();
+    public static int numBallsLoadedTower = 0;
+    public static boolean towerFull = false;
 
     /**
      * This method is run when the robot is first started up and should be used for any
@@ -26,9 +32,6 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
-        // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
-        // autonomous chooser on the dashboard.
-        robotContainer = new RobotContainer();
     }
 
     /**
@@ -45,6 +48,12 @@ public class Robot extends TimedRobot {
         // and running subsystem periodic() methods.  This must be called from the robot's periodic
         // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run();
+
+        if (numBallsLoadedTower == 4) {
+            towerFull = true;
+        } else towerFull = false;
+        SmartDashboard.putNumber("Number of Balls in Robot", numBallsLoadedTower);
+        SmartDashboard.putBoolean("Ready to Shoot", towerFull);
     }
 
     /**

@@ -1,25 +1,23 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
 import frc.robot.subsystems.ShooterSubsystem;
 
 
-public class ShootBallForwardCommand extends CommandBase {
-    private final ShooterSubsystem shooterSubsystem = ShooterSubsystem.getInstance();
+public class ShootBall extends CommandBase {
+    private final ShooterSubsystem shooterSubsystem;
 
-    public ShootBallForwardCommand() {
+    public ShootBall(ShooterSubsystem shooterSubsystem) {
+        this.shooterSubsystem = shooterSubsystem;
         addRequirements(shooterSubsystem);
-        setName("Shoot Ball Command");
     }
+
 
     @Override
     public void execute() {
         shooterSubsystem.shootForward();
-    }
-
-    @Override
-    public boolean isFinished() {
-        return true;
+        Robot.numBallsLoadedTower = 0;
     }
 
     @Override

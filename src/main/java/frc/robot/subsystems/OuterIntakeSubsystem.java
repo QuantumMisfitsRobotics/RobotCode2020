@@ -1,36 +1,29 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import static frc.robot.Constants.OuterIntakeConstants;
 
 public class OuterIntakeSubsystem extends SubsystemBase {
-    private final static OuterIntakeSubsystem INSTANCE = new OuterIntakeSubsystem();
 
-    private final WPI_VictorSPX m_outerIntakeController = new WPI_VictorSPX(Constants.OuterIntakeConstants.OuterIntakeControllerId);
+    private final WPI_VictorSPX m_outerIntakeController = new WPI_VictorSPX(OuterIntakeConstants.OuterIntakeControllerId);
 
-    private OuterIntakeSubsystem() {
+    public OuterIntakeSubsystem() {
         setName("Outer Intake Subsystem");
-
-        RunCommand defaultCommand = new RunCommand(this::stop);
-        defaultCommand.addRequirements(this);
-        setDefaultCommand(defaultCommand);
+        setSubsystem(getName());
+        addChild("Outer Intake Controller", m_outerIntakeController);
     }
 
-    public void activateOuterIntake() {
-        m_outerIntakeController.set(1);
+    public void startOuterIntake() {
+        m_outerIntakeController.set(0.5);
     }
 
-    public void stop() {
+    public void stopOuterIntake() {
         m_outerIntakeController.stopMotor();
     }
 
-    public static OuterIntakeSubsystem getInstance() { return INSTANCE; }
-
     public void reverseOuterIntake() {
-        m_outerIntakeController.set(-1);
+        m_outerIntakeController.set(-0.5);
     }
 }
 
