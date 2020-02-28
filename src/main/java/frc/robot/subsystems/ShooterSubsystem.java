@@ -27,5 +27,9 @@ public class ShooterSubsystem extends SubsystemBase {
     public void shootBackward() {
         m_ballShooterController.set(-1);
     }
+
+    public boolean getShooterRunning() {
+        return m_ballShooterController.get() != 0;
+    }
 }
 

@@ -5,19 +5,17 @@ import frc.robot.Robot;
 import frc.robot.subsystems.ShooterSubsystem;
 
 
-public class ShootBall extends CommandBase {
+public class ShooterBallCommand extends CommandBase {
     private final ShooterSubsystem shooterSubsystem;
 
-    public ShootBall(ShooterSubsystem shooterSubsystem) {
+    public ShooterBallCommand(ShooterSubsystem shooterSubsystem) {
         this.shooterSubsystem = shooterSubsystem;
         addRequirements(shooterSubsystem);
     }
 
-
     @Override
     public void execute() {
         shooterSubsystem.shootForward();
-        Robot.numBallsLoadedTower = 0;
     }
 
     @Override

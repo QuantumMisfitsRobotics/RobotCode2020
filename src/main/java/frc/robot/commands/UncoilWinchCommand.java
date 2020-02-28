@@ -4,21 +4,21 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ElevatorSubsystem;
 
 
-public class StopElevator extends CommandBase {
+public class UncoilWinchCommand extends CommandBase {
     private final ElevatorSubsystem elevatorSubsystem;
 
-    public StopElevator(ElevatorSubsystem elevatorSubsystem) {
+    public UncoilWinchCommand(ElevatorSubsystem elevatorSubsystem) {
         this.elevatorSubsystem = elevatorSubsystem;
         addRequirements(elevatorSubsystem);
     }
 
     @Override
     public void initialize() {
-        elevatorSubsystem.stopElevator();
+        elevatorSubsystem.setWinchSpeed(-0.5);
     }
 
     @Override
-    public boolean isFinished() {
-        return true;
+    public void end(boolean interrupted) {
+        elevatorSubsystem.stopWinch();
     }
 }

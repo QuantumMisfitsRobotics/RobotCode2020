@@ -7,24 +7,23 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.sensors.PigeonIMU;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.kinematics.MecanumDriveMotorVoltages;
 import edu.wpi.first.wpilibj.kinematics.MecanumDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.MecanumDriveWheelSpeeds;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.DriveConstants;
-import frc.robot.RobotContainer;
-import frc.robot.commands.DriveCartesian;
+import static frc.robot.Constants.DriveConstants;
+import frc.robot.commands.DriveCartesianCommand;
+
+import java.util.List;
 
 public class DriveSubsystem extends SubsystemBase {
     private final CANSparkMax m_frontLeft = new CANSparkMax(DriveConstants.kFrontLeftMotorID, CANSparkMaxLowLevel.MotorType.kBrushed);
@@ -32,23 +31,23 @@ public class DriveSubsystem extends SubsystemBase {
     private final CANSparkMax m_frontRight = new CANSparkMax(DriveConstants.kFrontRightMotorID, CANSparkMaxLowLevel.MotorType.kBrushed);
     private final CANSparkMax m_rearRight = new CANSparkMax(DriveConstants.kRearRightMotorID, CANSparkMaxLowLevel.MotorType.kBrushed);
 
-    private final MecanumDrive m_drive = new MecanumDrive(
-            m_frontLeft,
-            m_rearLeft,
-            m_frontRight,
-            m_rearRight);
+    private List<CANSparkMax> controllers = List.of(m_frontLeft, m_rearLeft, m_frontRight, m_rearRight);
+
+    private final MecanumDrive m_drive = new MecanumDrive(m_frontLeft, m_rearLeft, m_frontRight, m_rearRight);
 
     // The front-left-side drive encoder
-    private final Encoder m_frontLeftEncoder =
-            new Encoder(DriveConstants.kFrontLeftEncoderPorts[0],
+    private final Encoder m_frontLeftEncoder = new Encoder(
+                    DriveConstants.kFrontLeftEncoderPorts[0],
                     DriveConstants.kFrontLeftEncoderPorts[1],
-                    DriveConstants.kFrontLeftEncoderReversed);
+                    DriveConstants.kFrontLeftEncoderReversed
+    );
 
     // The rear-left-side drive encoder
-    private final Encoder m_rearLeftEncoder =
-            new Encoder(DriveConstants.kRearLeftEncoderPorts[0],
+    private final Encoder m_rearLeftEncoder = new Encoder(
+                    DriveConstants.kRearLeftEncoderPorts[0],
                     DriveConstants.kRearLeftEncoderPorts[1],
-                    DriveConstants.kRearLeftEncoderReversed);
+                    DriveConstants.kRearLeftEncoderReversed
+    );
 
     // The front-right--side drive encoder
     private final Encoder m_frontRightEncoder =
@@ -63,7 +62,7 @@ public class DriveSubsystem extends SubsystemBase {
                     DriveConstants.kRearRightEncoderReversed);
 
     // The gyro sensor
-    private final Gyro m_gyro = new ADXRS450_Gyro();
+    public final PigeonIMU pigeonIMU = new PigeonIMU(12);
 
     // Odometry class for tracking robot pose
     MecanumDriveOdometry m_odometry =
@@ -72,19 +71,17 @@ public class DriveSubsystem extends SubsystemBase {
     /**
      * Creates a new DriveSubsystem.
      */
-    public DriveSubsystem(XboxController controller) {
+    public DriveSubsystem(XboxController controller, Joystick controlBoard) {
+
         // Sets the distance per pulse for the encoders
         m_frontLeftEncoder.setDistancePerPulse(DriveConstants.kEncoderDistancePerPulse);
         m_rearLeftEncoder.setDistancePerPulse(DriveConstants.kEncoderDistancePerPulse);
         m_frontRightEncoder.setDistancePerPulse(DriveConstants.kEncoderDistancePerPulse);
         m_rearRightEncoder.setDistancePerPulse(DriveConstants.kEncoderDistancePerPulse);
 
-        m_frontLeft.setInverted(false);
-        m_rearLeft.setInverted(false);
-        m_frontRight.setInverted(false);
-        m_rearRight.setInverted(false);
+        controllers.forEach((CANSparkMax max) -> max.setInverted(false));
 
-        setDefaultCommand(new DriveCartesian(this, controller));
+        setDefaultCommand(new DriveCartesianCommand(this, controller, controlBoard));
     }
 
     /**
@@ -94,7 +91,7 @@ public class DriveSubsystem extends SubsystemBase {
      */
     public Rotation2d getAngle() {
         // Negating the angle because WPILib gyros are CW positive.
-        return Rotation2d.fromDegrees(m_gyro.getAngle() * (DriveConstants.kGyroReversed ? 1.0 : -1.0));
+        return Rotation2d.fromDegrees(pigeonIMU.getFusedHeading() * (DriveConstants.kGyroReversed ? 1.0 : -1.0));
     }
 
     @Override
@@ -138,7 +135,7 @@ public class DriveSubsystem extends SubsystemBase {
     @SuppressWarnings("ParameterName")
     public void drive(double ySpeed, double xSpeed, double rot, boolean fieldRelative) {
         if (fieldRelative) {
-            m_drive.driveCartesian(xSpeed, ySpeed, rot, -m_gyro.getAngle());
+            m_drive.driveCartesian(xSpeed, ySpeed, rot, pigeonIMU.getFusedHeading());
         } else {
             m_drive.driveCartesian(xSpeed, ySpeed, rot);
         }
@@ -233,7 +230,7 @@ public class DriveSubsystem extends SubsystemBase {
      * Zeroes the heading of the robot.
      */
     public void zeroHeading() {
-        m_gyro.reset();
+        pigeonIMU.setFusedHeading(0);
     }
 
     /**
@@ -242,7 +239,7 @@ public class DriveSubsystem extends SubsystemBase {
      * @return the robot's heading in degrees, from 180 to 180
      */
     public double getHeading() {
-        return Math.IEEEremainder(m_gyro.getAngle(), 360) * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
+        return Math.IEEEremainder(pigeonIMU.getFusedHeading(), 360) * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
     }
 
     /**
@@ -251,10 +248,14 @@ public class DriveSubsystem extends SubsystemBase {
      * @return The turn rate of the robot, in degrees per second
      */
     public double getTurnRate() {
-        return m_gyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
+        return pigeonIMU.getCompassHeading() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
     }
 
     public void stopMotors() {
         m_drive.stopMotor();
+    }
+
+    public void checkDrive() {
+        MecanumDrive.checkMotors();
     }
 }

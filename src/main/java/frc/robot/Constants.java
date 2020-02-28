@@ -75,7 +75,7 @@ public final class Constants
     }
 
     public static final class ElevatorConstants {
-        public static final int kElevatorControllerId = 10;
-        public static final int kElevatorWinchId = 11;
+        public static final int kElevatorControllerId = 11;
+        public static final int kElevatorWinchId = 10;
     }
 }

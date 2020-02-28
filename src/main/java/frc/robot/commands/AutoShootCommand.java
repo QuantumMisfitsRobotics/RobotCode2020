@@ -1,13 +1,16 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TowerSubsystem;
-
 
 public class AutoShootCommand extends CommandBase {
     private final ShooterSubsystem shooterSubsystem;
     private final TowerSubsystem towerSubsystem;
+
+    private Double startTime;
 
     public AutoShootCommand(ShooterSubsystem shooterSubsystem, TowerSubsystem towerSubsystem) {
         this.shooterSubsystem = shooterSubsystem;
@@ -16,18 +19,23 @@ public class AutoShootCommand extends CommandBase {
     }
 
     @Override
-    public void execute() {
-
+    public void initialize() {
+        startTime = Timer.getFPGATimestamp();
+        shooterSubsystem.shootForward();
     }
 
     @Override
-    public boolean isFinished() {
-        // TODO: Make this return true when this Command no longer needs to run execute()
-        return false;
+    public void execute() {
+        double shooterRevTime = 1.0;
+        if (startTime + shooterRevTime < Timer.getFPGATimestamp()) {
+            towerSubsystem.raiseBalls();
+        }
     }
 
     @Override
     public void end(boolean interrupted) {
-
+        towerSubsystem.stopBalls();
+        shooterSubsystem.stopShooter();
+        Robot.numBallsLoadedTower = 0;
     }
 }

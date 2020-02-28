@@ -25,10 +25,14 @@ public class TowerSubsystem extends SubsystemBase {
     public void raiseBalls() { m_towerGroup.set(.25); }
 
     public void lowerBalls() {
-        m_towerGroup.set(-.25);
+        m_towerGroup.set(-.75);
     }
 
     public void stopBalls() {
         m_towerGroup.stopMotor();
+    }
+
+    public boolean towerIsRunning() {
+        return m_towerGroup.get() != 0;
     }
 }

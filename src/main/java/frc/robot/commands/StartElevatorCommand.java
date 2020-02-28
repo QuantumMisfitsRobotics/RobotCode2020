@@ -4,10 +4,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ElevatorSubsystem;
 
 
-public class StartElevator extends CommandBase {
+public class StartElevatorCommand extends CommandBase {
     private final ElevatorSubsystem elevatorSubsystem;
 
-    public StartElevator(ElevatorSubsystem elevatorSubsystem) {
+    public StartElevatorCommand(ElevatorSubsystem elevatorSubsystem) {
         this.elevatorSubsystem = elevatorSubsystem;
         addRequirements(elevatorSubsystem);
     }

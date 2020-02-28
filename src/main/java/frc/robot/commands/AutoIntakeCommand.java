@@ -26,13 +26,15 @@ public class AutoIntakeCommand extends CommandBase {
     }
 
     @Override
-    public void execute() {
-        proximity = colorSensorV3.getProximity();
-
+    public void initialize() {
         outerIntakeSubsystem.startOuterIntake();
         innerIntakeSubsystem.startInnerIntake();
+    }
 
-        if (proximity >= 110 ) {
+    @Override
+    public void execute() {
+        proximity = colorSensorV3.getProximity();
+        if (proximity >= 110 && Robot.numBallsLoadedTower < 3) {
             towerSubsystem.raiseBalls();
             if (!incrementedBallCounter) {
                 Robot.numBallsLoadedTower++;

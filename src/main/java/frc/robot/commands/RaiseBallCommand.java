@@ -4,10 +4,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.TowerSubsystem;
 
 
-public class RaiseBall extends CommandBase {
+public class RaiseBallCommand extends CommandBase {
     private final TowerSubsystem towerSubsystem;
 
-    public RaiseBall(TowerSubsystem towerSubsystem) {
+    public RaiseBallCommand(TowerSubsystem towerSubsystem) {
         this.towerSubsystem = towerSubsystem;
         addRequirements(towerSubsystem);
     }

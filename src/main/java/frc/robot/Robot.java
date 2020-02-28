@@ -7,100 +7,65 @@
 
 package frc.robot;
 
-import com.revrobotics.ColorSensorV3;
-import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.AutonomousDriveForwardCommand;
 
-/**
- * The VM is configured to automatically run this class, and to call the
- * methods corresponding to each mode, as described in the TimedRobot
- * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the build.gradle file in the
- * project.
- */
 public class Robot extends TimedRobot {
+    private AutonomousDriveForwardCommand m_autoCommand;
     private RobotContainer robotContainer = new RobotContainer();
     public static int numBallsLoadedTower = 0;
     public static boolean towerFull = false;
 
-    /**
-     * This method is run when the robot is first started up and should be used for any
-     * initialization code.
-     */
     @Override
-    public void robotInit() {
-    }
+    public void robotInit() { }
 
-    /**
-     * This method is called every robot packet, no matter the mode. Use this for items like
-     * diagnostics that you want ran during disabled, autonomous, teleoperated and test.
-     *
-     * <p>This runs after the mode specific periodic functions, but before
-     * LiveWindow and SmartDashboard integrated updating.
-     */
     @Override
     public void robotPeriodic() {
-        // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
-        // commands, running already-scheduled commands, removing finished or interrupted commands,
-        // and running subsystem periodic() methods.  This must be called from the robot's periodic
-        // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run();
 
-        if (numBallsLoadedTower == 4) {
-            towerFull = true;
-        } else towerFull = false;
+        towerFull = numBallsLoadedTower == 4;
         SmartDashboard.putNumber("Number of Balls in Robot", numBallsLoadedTower);
         SmartDashboard.putBoolean("Ready to Shoot", towerFull);
-    }
-
-    /**
-     * This method is called once each time the robot enters Disabled mode.
-     */
-    @Override
-    public void disabledInit() {
+        SmartDashboard.putNumber("Ball Count", numBallsLoadedTower);
+        robotContainer.periodic();
     }
 
     @Override
-    public void disabledPeriodic() {
-    }
+    public void disabledInit() { }
 
-    /**
-     * This autonomous runs the autonomous command selected by your {@link RobotContainer} class.
-     */
+    @Override
+    public void disabledPeriodic() { }
+
     @Override
     public void autonomousInit() {
+        robotContainer.getPigeon().setFusedHeading(0); // Setup field oriented driving
+        m_autoCommand = robotContainer.getAutoCommand();
+
+        if (m_autoCommand != null) {
+            m_autoCommand.schedule();
+        }
     }
 
-    /**
-     * This method is called periodically during autonomous.
-     */
     @Override
-    public void autonomousPeriodic() {
-    }
+    public void autonomousPeriodic() { }
 
     @Override
     public void teleopInit() {
+        if (m_autoCommand != null) {
+            m_autoCommand.cancel();
+        }
     }
 
-    /**
-     * This method is called periodically during operator control.
-     */
     @Override
-    public void teleopPeriodic() {
-    }
+    public void teleopPeriodic() { }
 
     @Override
     public void testInit() {
-        // Cancels all running commands at the start of test mode.
         CommandScheduler.getInstance().cancelAll();
     }
 
-    /**
-     * This method is called periodically during test mode.
-     */
     @Override
     public void testPeriodic() {
     }
