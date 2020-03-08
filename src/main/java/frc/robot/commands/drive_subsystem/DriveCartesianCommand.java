@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.drive_subsystem;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
@@ -28,7 +28,7 @@ public class DriveCartesianCommand extends CommandBase {
                 controller.getY(GenericHID.Hand.kLeft) / 2,
                 -controller.getX(GenericHID.Hand.kLeft) / 2,
                 -controller.getX(GenericHID.Hand.kRight) / 2,
-                controlBoard.getRawButton(2)
+                false
         );
     }
 

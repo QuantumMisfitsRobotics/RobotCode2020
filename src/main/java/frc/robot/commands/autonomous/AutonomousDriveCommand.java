@@ -1,18 +1,17 @@
-package frc.robot.commands;
+package frc.robot.commands.autonomous;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 
 
-public class AutonomousDriveForwardCommand extends CommandBase {
+public class AutonomousDriveCommand extends CommandBase {
     private final DriveSubsystem driveSubsystem;
 
     private Double startTime;
 
-    public AutonomousDriveForwardCommand(DriveSubsystem driveSubsystem) {
+    public AutonomousDriveCommand(DriveSubsystem driveSubsystem) {
         this.driveSubsystem = driveSubsystem;
-        // each subsystem used by the command must be passed into the addRequirements() method (which takes a vararg of Subsystem)
         addRequirements(this.driveSubsystem);
     }
 
@@ -33,7 +32,7 @@ public class AutonomousDriveForwardCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return Timer.getFPGATimestamp() > startTime + 1.5;
+        return Timer.getFPGATimestamp() > startTime + 0.5;
     }
 
     @Override

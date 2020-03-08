@@ -74,8 +74,12 @@ public final class Constants
         public static final int kShooterControllerPort = 9;
     }
 
+    public static final class ColorWheelConstants {
+        public static final int controllerId = 10;
+    }
+
     public static final class ElevatorConstants {
-        public static final int kElevatorControllerId = 11;
-        public static final int kElevatorWinchId = 10;
+        public static final int kElevatorControllerId = 10;
+        public static final int kElevatorWinchId = 11;
     }
 }

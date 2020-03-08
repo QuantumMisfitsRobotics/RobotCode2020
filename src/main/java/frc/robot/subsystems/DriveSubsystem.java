@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj.kinematics.MecanumDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.MecanumDriveWheelSpeeds;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.DriveConstants;
-import frc.robot.commands.DriveCartesianCommand;
+import frc.robot.commands.drive_subsystem.DriveCartesianCommand;
 
 import java.util.List;
 
@@ -240,6 +240,10 @@ public class DriveSubsystem extends SubsystemBase {
      */
     public double getHeading() {
         return Math.IEEEremainder(pigeonIMU.getFusedHeading(), 360) * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
+    }
+
+    public double getRawHeading() {
+        return pigeonIMU.getFusedHeading();
     }
 
     /**

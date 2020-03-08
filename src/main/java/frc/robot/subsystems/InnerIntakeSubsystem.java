@@ -20,7 +20,7 @@ public class InnerIntakeSubsystem extends SubsystemBase {
     }
 
     public void startInnerIntake() {
-        m_innerIntakeMotor.set(0.75);
+        m_innerIntakeMotor.set(0.6);
     }
 
     public void reverse() {

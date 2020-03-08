@@ -1,24 +1,24 @@
-package frc.robot.commands;
+package frc.robot.commands.elevator_subsystem;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ElevatorSubsystem;
 
 
-public class UncoilWinchCommand extends CommandBase {
+public class StartElevatorCommand extends CommandBase {
     private final ElevatorSubsystem elevatorSubsystem;
 
-    public UncoilWinchCommand(ElevatorSubsystem elevatorSubsystem) {
+    public StartElevatorCommand(ElevatorSubsystem elevatorSubsystem) {
         this.elevatorSubsystem = elevatorSubsystem;
         addRequirements(elevatorSubsystem);
     }
 
     @Override
     public void initialize() {
-        elevatorSubsystem.setWinchSpeed(-0.5);
+        elevatorSubsystem.elevatorUp();
     }
 
     @Override
-    public void end(boolean interrupted) {
-        elevatorSubsystem.stopWinch();
+    public boolean isFinished() {
+        return true;
     }
 }

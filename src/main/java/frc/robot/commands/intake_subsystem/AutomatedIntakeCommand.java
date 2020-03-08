@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.intake_subsystem;
 
 import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -9,7 +9,7 @@ import frc.robot.subsystems.OuterIntakeSubsystem;
 import frc.robot.subsystems.TowerSubsystem;
 
 
-public class AutoIntakeCommand extends CommandBase {
+public class AutomatedIntakeCommand extends CommandBase {
     private final InnerIntakeSubsystem innerIntakeSubsystem;
     private final OuterIntakeSubsystem outerIntakeSubsystem;
     private final TowerSubsystem towerSubsystem;
@@ -17,7 +17,7 @@ public class AutoIntakeCommand extends CommandBase {
     private int proximity;
     private boolean incrementedBallCounter = false;
 
-    public AutoIntakeCommand(InnerIntakeSubsystem innerIntakeSubsystem, OuterIntakeSubsystem outerIntakeSubsystem, TowerSubsystem towerSubsystem, ColorSensorV3 colorSensorV3) {
+    public AutomatedIntakeCommand(InnerIntakeSubsystem innerIntakeSubsystem, OuterIntakeSubsystem outerIntakeSubsystem, TowerSubsystem towerSubsystem, ColorSensorV3 colorSensorV3) {
         this.innerIntakeSubsystem = innerIntakeSubsystem;
         this.outerIntakeSubsystem = outerIntakeSubsystem;
         this.towerSubsystem = towerSubsystem;
@@ -33,9 +33,10 @@ public class AutoIntakeCommand extends CommandBase {
 
     @Override
     public void execute() {
+
         proximity = colorSensorV3.getProximity();
-        if (proximity >= 110 && Robot.numBallsLoadedTower < 3) {
-            towerSubsystem.raiseBalls();
+        if (proximity >= 110 && Robot.numBallsLoadedTower < 4) {
+            towerSubsystem.setTowerSpeed(0.475);
             if (!incrementedBallCounter) {
                 Robot.numBallsLoadedTower++;
                 incrementedBallCounter = true;
